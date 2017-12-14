@@ -116,7 +116,7 @@ module.exports = function(passport) {
                 User.findOne({ 'local.email' :  email }, function(err, user) {
                     if (err)
                         return done(err);
-                    
+
                     if (user) {
                         return done(null, false, req.flash('loginMessage', 'That email is already taken.'));
                         // Using 'loginMessage instead of signupMessage because it's used by /connect/local'
@@ -127,7 +127,7 @@ module.exports = function(passport) {
                         user.save(function (err) {
                             if (err)
                                 return done(err);
-                            
+
                             return done(null,user);
                         });
                     }
@@ -170,7 +170,7 @@ module.exports = function(passport) {
                             user.save(function(err) {
                                 if (err)
                                     return done(err);
-                                    
+
                                 return done(null, user);
                             });
                         }
@@ -188,7 +188,7 @@ module.exports = function(passport) {
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
-                                
+
                             return done(null, newUser);
                         });
                     }
@@ -206,7 +206,7 @@ module.exports = function(passport) {
                 user.save(function(err) {
                     if (err)
                         return done(err);
-                        
+
                     return done(null, user);
                 });
 
@@ -218,17 +218,17 @@ module.exports = function(passport) {
     // =========================================================================
     // TWITTER HELPER FUNCTIONS ================================================
     // =========================================================================
-    
+
     function getAllFollowers(screenName, followers){
-        
-            T.get('followers/list', 
-                    { screen_name: screenName, count: 200 },  
+
+            T.get('followers/list',
+                    { screen_name: screenName, count: 200 },
                     function getData(err, data, response) {
                     if (err) {
                         console.log(err);
                         } else {
                             followers = followers.concat(data.users);
-                            
+
                             if(data.next_cursor > 0){
                               T.get('followers/list', { screen_name: screenName, count: 200, cursor: data.next_cursor_str }, getData);
                             } else {
@@ -237,7 +237,7 @@ module.exports = function(passport) {
                         }
                     });
         }
-        
+
         function sortit(a,b){
             return(b.followers_count - a.followers_count)
         }
@@ -261,7 +261,7 @@ module.exports = function(passport) {
 
             // printing profile to check all the fields in the twitter profile given by passport
             console.log("profile is "+profile);
-            
+
             // check if the user is already logged in
             if (!req.user) {
 
@@ -278,28 +278,28 @@ module.exports = function(passport) {
                             var followers = [];
 							var screenName = profile.username;
 
-                            T.get('followers/list', 
-							{ screen_name: screenName, count: 200 },  
+                            T.get('followers/list',
+							{ screen_name: screenName, count: 200 },
 							function getData(err, data, response) {
 							if (err) {
 								console.log(err);
 							} else {
                             followers = followers.concat(data.users);
-                            
+
                             if(data.next_cursor > 0){
                               T.get('followers/list', { screen_name: screenName, count: 200, cursor: data.next_cursor_str }, getData);
                             } else {
 								followers.sort(sortit);
 								user.twitter.followers   = followers;
 						        user.twitter.followers_count = followers.length;
-								
+
 								user.save(function(err) {
 									if (err)
 										return done(err);
-                                
+
 									return done(null, user);
 								});
-								
+
                             }
 							}
 							});
@@ -316,33 +316,33 @@ module.exports = function(passport) {
                         newUser.twitter.displayName = profile.displayName;
                         var followers = [];
 						var screenName = profile.username;
-						
-						T.get('followers/list', 
-						{ screen_name: screenName, count: 200 },  
+
+						T.get('followers/list',
+						{ screen_name: screenName, count: 200 },
 						function getData(err, data, response) {
 						if (err) {
 							console.log(err);
                         } else {
                             followers = followers.concat(data.users);
-                            
+
                             if(data.next_cursor > 0){
                               T.get('followers/list', { screen_name: screenName, count: 200, cursor: data.next_cursor_str }, getData);
                             } else {
 								followers.sort(sortit);
 								newUser.twitter.followers   = followers;
 						        newUser.twitter.followers_count = followers.length;
-								
+
 								newUser.save(function(err) {
 									if (err)
 										return done(err);
-                                
+
 									return done(null, newUser);
 								});
-								
+
                             }
                         }
 						});
-						
+
                     }
                 });
 
@@ -357,28 +357,28 @@ module.exports = function(passport) {
 				var followers = [];
 				var screenName = profile.username;
 
-                T.get('followers/list', 
-				{ screen_name: screenName, count: 200 },  
+                T.get('followers/list',
+				{ screen_name: screenName, count: 200 },
 				function getData(err, data, response) {
 				if (err) {
 					console.log(err);
 				} else {
                     followers = followers.concat(data.users);
-                            
+
                     if(data.next_cursor > 0){
                       T.get('followers/list', { screen_name: screenName, count: 200, cursor: data.next_cursor_str }, getData);
-                    } else {
+                    } else {        
 						followers.sort(sortit);
 						user.twitter.followers   = followers;
 					    user.twitter.followers_count = followers.length;
-						
+
 						user.save(function(err) {
 							if (err)
 								return done(err);
-                        
+
 							return done(null, user);
 						});
-						
+
                     }
 					}
 					});
