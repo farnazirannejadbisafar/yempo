@@ -1,0 +1,38 @@
+{
+  "name": "yempo",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt-nodejs": "latest",
+    "body-parser": "latest",
+    "connect-flash": "latest",
+    "cookie-parser": "latest",
+    "ejs": "latest",
+    "express": "latest",
+    "express-session": "latest",
+    "method-override": "latest",
+    "mongoose": "latest",
+    "morgan": "latest",
+    "passport": "latest",
+    "passport-facebook": "latest",
+    "passport-google-oauth": "latest",
+    "passport-local": "latest",
+    "passport-twitter": "latest",
+    "twit": "latest",
+    "q": "latest"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "Using Passport to authenticate users locally, with Facebook, Twitter.",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krishnakaranam3732/yempo.git"
+  },
+  "author": "krishna karanam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krishnakaranam3732/yempo/issues"
+  },
+  "homepage": "https://github.com/krishnakaranam3732/yempo#readme"
+}
